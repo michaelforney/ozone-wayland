@@ -44,6 +44,7 @@ class WaylandDispatcher : public base::Thread {
   void PointerLeave(unsigned handle, float x, float y);
   void KeyNotify(unsigned type, unsigned code, unsigned modifiers);
   void OutputSizeChanged(unsigned width, unsigned height);
+  void WindowResized(unsigned handle, unsigned width, unsigned height);
 
   // Posts task to worker thread.
   void PostTask(Task type = Flush);
@@ -66,6 +67,8 @@ class WaylandDispatcher : public base::Thread {
   static void NotifyPointerEnter(WaylandDispatcher* data, unsigned handle);
   static void NotifyPointerLeave(WaylandDispatcher* data, unsigned handle);
   static void NotifyButtonPress(WaylandDispatcher* data, unsigned handle);
+  static void NotifyWindowResized(WaylandDispatcher* data, unsigned handle,
+                                  unsigned width, unsigned height);
   static void DispatchEventHelper(scoped_ptr<ui::Event> key);
   static void SendMotionNotify(float x, float y);
   static void SendButtonNotify(unsigned handle,
@@ -78,6 +81,8 @@ class WaylandDispatcher : public base::Thread {
   static void SendPointerLeave(unsigned handle, float x, float y);
   static void SendKeyNotify(unsigned type, unsigned code, unsigned modifiers);
   static void SendOutputSizeChanged(unsigned width, unsigned height);
+  static void SendWindowResized(unsigned handle,
+                                unsigned width, unsigned height);
   void MessageLoopDestroyed();
   base::MessageLoop* loop_;
   bool ignore_task_ :1;

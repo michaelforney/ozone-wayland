@@ -165,6 +165,8 @@ class VIEWS_EXPORT DesktopRootWindowHostWayland :
   virtual void OnWindowFocused(unsigned windowhandle) OVERRIDE;
   virtual void OnWindowEnter(unsigned windowhandle) OVERRIDE;
   virtual void OnWindowLeave(unsigned windowhandle) OVERRIDE;
+  virtual void OnWindowResized(unsigned windowhandle,
+                               unsigned width, unsigned height) OVERRIDE;
 
   // Overridden from DesktopSelectionProviderAuraOzone:
   //virtual void SetDropHandler(

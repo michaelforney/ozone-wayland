@@ -143,6 +143,13 @@ void OzoneDisplayChannelHost::OnOutputSizeChanged(unsigned width,
   OzoneDisplay::GetInstance()->OnOutputSizeChanged(width, height);
 }
 
+void OzoneDisplayChannelHost::OnWindowResized(unsigned handle,
+                                              unsigned width,
+                                              unsigned height)
+{
+  dispatcher_->WindowResized(handle, width, height);
+}
+
 bool OzoneDisplayChannelHost::OnMessageReceived(const IPC::Message& message)
 {
   DCHECK(content::BrowserThread::CurrentlyOn(content::BrowserThread::IO)) <<
@@ -157,6 +164,7 @@ bool OzoneDisplayChannelHost::OnMessageReceived(const IPC::Message& message)
   IPC_MESSAGE_HANDLER(WaylandInput_PointerLeave, OnPointerLeave)
   IPC_MESSAGE_HANDLER(WaylandInput_KeyNotify, OnKeyNotify)
   IPC_MESSAGE_HANDLER(WaylandInput_OutputSize, OnOutputSizeChanged)
+  IPC_MESSAGE_HANDLER(WaylandWindow_Resized, OnWindowResized)
   IPC_MESSAGE_UNHANDLED(handled = false)
   IPC_END_MESSAGE_MAP()
 

@@ -48,6 +48,7 @@ class OzoneDisplayChannelHost : public IPC::ChannelProxy::MessageFilter {
   void OnPointerLeave(unsigned handle, float x, float y);
   void OnKeyNotify(unsigned type, unsigned code, unsigned modifiers);
   void OnOutputSizeChanged(unsigned width, unsigned height);
+  void OnWindowResized(unsigned handle, unsigned width, unsigned height);
 
   // IPC::ChannelProxy::MessageFilter implementation:
   virtual bool OnMessageReceived(const IPC::Message& message) OVERRIDE;

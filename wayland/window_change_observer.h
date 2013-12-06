@@ -19,6 +19,8 @@ class WindowChangeObserver {
   virtual void OnWindowEnter(unsigned windowhandle) = 0;
   // Called when the pointer leaves a window.
   virtual void OnWindowLeave(unsigned windowhandle) = 0;
+  // Called when the window is resized.
+  virtual void OnWindowResized(unsigned windowhandle, unsigned width, unsigned height) = 0;
 
  protected:
   virtual ~WindowChangeObserver() {}

@@ -62,3 +62,8 @@ IPC_MESSAGE_ROUTED5(WaylandWindow_Attributes,
 IPC_MESSAGE_ROUTED2(WaylandWindow_Title,
                     unsigned /* window handle */,
                     string16 /* window title */)
+
+IPC_MESSAGE_CONTROL3(WaylandWindow_Resized,
+                     unsigned /* window handle */,
+                     unsigned /* width */,
+                     unsigned /* height */)

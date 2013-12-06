@@ -235,6 +235,23 @@ void WaylandDispatcher::OutputSizeChanged(unsigned width, unsigned height)
                       &WaylandDispatcher::SendOutputSizeChanged, width, height));
 }
 
+void WaylandDispatcher::WindowResized(unsigned handle,
+                                      unsigned width, unsigned height)
+{
+  if (epoll_fd_) {
+    if (!running)
+      return;
+    PostTaskOnMainLoop(FROM_HERE,
+                       base::Bind(&WaylandDispatcher::SendWindowResized,
+                                  handle, width, height));
+  } else {
+
+    PostTaskOnMainLoop(FROM_HERE,
+                       base::Bind(&WaylandDispatcher::NotifyWindowResized, this,
+                                  handle, width, height));
+  }
+}
+
 void WaylandDispatcher::PostTask(Task type)
 {
   if (!IsRunning() || ignore_task_)
@@ -394,6 +411,13 @@ void WaylandDispatcher::NotifyButtonPress(WaylandDispatcher* data,
     data->observer_->OnWindowFocused(handle);
 }
 
+void WaylandDispatcher::NotifyWindowResized(WaylandDispatcher* data,
+                                            unsigned handle,
+                                            unsigned width, unsigned height) {
+  if (data->observer_)
+    data->observer_->OnWindowResized(handle, width, height);
+}
+
 void WaylandDispatcher::DispatchEventHelper(scoped_ptr<ui::Event> key) {
   base::MessagePumpOzone::Current()->Dispatch(key.get());
 }
@@ -444,6 +468,13 @@ void WaylandDispatcher::SendOutputSizeChanged(unsigned width, unsigned height)
 {
   content::ChildThread* thread = GetProcessMainThread();
   thread->Send(new WaylandInput_OutputSize(width, height));
+}
+
+void WaylandDispatcher::SendWindowResized(unsigned handle,
+                                          unsigned width, unsigned height)
+{
+  content::ChildThread* thread = GetProcessMainThread();
+  thread->Send(new WaylandWindow_Resized(handle, width, height));
 }
 
 void WaylandDispatcher::MessageLoopDestroyed()

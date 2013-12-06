@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include "ozone/wayland/dispatcher.h"
+
 #include "ozone/wayland/shell_surface.h"
 
 #include "ozone/wayland/display.h"
@@ -93,8 +95,9 @@ void WaylandShellSurface::HandleConfigure(void *data,
                                           int32_t width,
                                           int32_t height)
 {
+  WaylandDispatcher *dispatcher = WaylandDispatcher::GetInstance();
   WaylandWindow *window = static_cast<WaylandWindow*>(data);
-  window->SetBounds(gfx::Rect(0, 0, width, height));
+  dispatcher->WindowResized(window->Handle(), width, height);
 }
 
 void WaylandShellSurface::HandlePopupDone(void *data,

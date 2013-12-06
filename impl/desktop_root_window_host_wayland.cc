@@ -619,6 +619,13 @@ void DesktopRootWindowHostWayland::OnWindowEnter(unsigned handle) {
 void DesktopRootWindowHostWayland::OnWindowLeave(unsigned handle) {
 }
 
+void DesktopRootWindowHostWayland::OnWindowResized(unsigned handle,
+                                                   unsigned width,
+                                                   unsigned height) {
+  DesktopRootWindowHostWayland *window = GetHostForAcceleratedWidget(handle);
+  window->SetBounds(gfx::Rect(0, 0, width, height));
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // DesktopRootWindowHostWayland, aura::RootWindowHost implementation:
 
